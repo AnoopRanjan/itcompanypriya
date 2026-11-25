@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us & Office Locations — Wixfix{% endblock %}
+
+{% block content %}
+<section class="dedicated-page-section">
+  <div class="container">
+    <div class="page-intro-head">
+      <span class="eyebrow-badge">Get In Touch</span>
+      <h1>Contact Wixfix &amp; Our Office Locations</h1>
+      <p>
+        Have questions about free* school portals, speaker-led learning modules, or custom web applications?
+        Reach out directly to our New Delhi or Varanasi offices.
+      </p>
+    </div>
+
+    <div class="contact-page-grid">
+      <!-- Official Company Details -->
+      <div class="contact-details-col">
+        <div class="panel-card">
+          <h3>Official Company Details</h3>
+          <div class="contact-info-list">
+            <div class="contact-info-item">
+              <div class="info-ico"><i data-lucide="user-check"></i></div>
+              <div>
+                <span class="info-label">Company Owner</span>
+                <strong>{{ owner_name }}</strong>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="info-ico teal"><i data-lucide="mail"></i></div>
+              <div>
+                <span class="info-label">Official Email</span>
+                <a href="mailto:{{ company_email }}"><strong>{{ company_email }}</strong></a>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="info-ico amber"><i data-lucide="building-2"></i></div>
+              <div>
+                <span class="info-label">Delhi Office</span>
+                <p>{{ delhi_office }}</p>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="info-ico navy"><i data-lucide="map-pin"></i></div>
+              <div>
+                <span class="info-label">Varanasi Office</span>
+                <p>{{ varanasi_office }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card mission-note-card">
+          <h4>Need a Custom Website Built?</h4>
+          <p>
+            You can also sign in on the home workspace and upload your application wireframe directly in the
+            <strong>Post Need &amp; Wireframe</strong> section for faster turnaround.
+          </p>
+          <a href="{{ url_for('home', section='request') }}#workspace" class="btn btn-outline-navy btn-sm">
+            Go to Wireframe Request Board &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact Inquiry Form -->
+      <div class="panel-card">
+        <h3>Send an Inquiry</h3>
+        <p class="panel-sub">Our team responds promptly to students, educators, and institutional partners.</p>
+
+        <form id="contact-page-form" class="need-form">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="contact-name">Your Full Name</label>
+              <input type="text" id="contact-name" name="name" placeholder="Enter your name" required />
+            </div>
+            <div class="form-group">
+              <label for="contact-email">Email ID</label>
+              <input type="email" id="contact-email" name="email" placeholder="you@example.com" required />
+            </div>
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="contact-phone">Mobile Number (Optional)</label>
+              <input type="tel" id="contact-phone" name="phone" placeholder="+91 9876543210" />
+            </div>
+            <div class="form-group">
+              <label for="contact-office">Preferred Office</label>
+              <select id="contact-office" name="office">
+                <option value="New Delhi Office">New Delhi Office (Uttam Nagar)</option>
+                <option value="Varanasi Office">Varanasi Office (Hukulganj)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" name="subject" placeholder="e.g., Free* School Portal / Speaker-Led Module" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="5" placeholder="Tell us about your educational goals or website needs..." required></textarea>
+          </div>
+
+          <div class="form-feedback" id="contact-feedback"></div>
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i data-lucide="send"></i>
+            <span>Submit Inquiry</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

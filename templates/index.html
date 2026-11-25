@@ -1,0 +1,689 @@
+{% extends "base.html" %}
+
+{% block title %}Wixfix — Turn Scattered YouTube Lessons into Structured Learning Portals{% endblock %}
+
+{% block content %}
+<!-- Hero Section (Clean White Freelancing-Marketplace Inspired Theme) -->
+<section class="hero-section">
+  <div class="container hero-grid">
+    <div class="hero-content">
+      <div class="hero-pill">
+        <i data-lucide="sparkles"></i>
+        <span>Free Website Creation* for Schools &amp; Educators</span>
+      </div>
+      <h1>
+        Turn Scattered <span>YouTube Lessons</span> into Structured, Easy-to-Learn Student Portals
+      </h1>
+      <p class="hero-lead">
+        Students waste hours hunting through unorganized YouTube playlists. <strong>Wixfix</strong> builds custom,
+        topic-wise educational websites that pair curated video lessons with clear descriptions and official study
+        items from <strong>MSDN, AWS &amp; GCP</strong>.
+      </p>
+
+      <div class="hero-cta-row">
+        <button type="button" class="btn btn-primary btn-lg" data-switch-section="samples">
+          <i data-lucide="layout-grid"></i>
+          <span>Explore Sample Sites</span>
+        </button>
+        <button type="button" class="btn btn-outline-navy btn-lg" data-switch-section="request">
+          <i data-lucide="upload-cloud"></i>
+          <span>Request Your Website</span>
+        </button>
+      </div>
+
+      <div class="hero-trust-strip">
+        <div class="trust-item">
+          <i data-lucide="check-circle-2"></i>
+          <span>Free* School Starter Portals</span>
+        </div>
+        <div class="trust-item">
+          <i data-lucide="book-open-check"></i>
+          <span>MSDN / AWS / GCP Study Items</span>
+        </div>
+        <div class="trust-item">
+          <i data-lucide="mic"></i>
+          <span>Affordable Speaker-Led Modules</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Freelance Marketplace Style Quick Service Card -->
+    <div class="hero-showcase-card">
+      <div class="showcase-card-top">
+        <span class="status-live"><span class="pulse-dot"></span> Live Portal Builder</span>
+        <span class="badge-amber">Free* Starter Tier</span>
+      </div>
+      <h3>Popular Wixfix Portal Categories</h3>
+      <div class="category-chips-grid">
+        <button type="button" class="cat-chip" data-switch-section="samples" data-filter-cat="AWS & GCP Cloud">
+          <i data-lucide="cloud"></i>
+          <div>
+            <strong>AWS &amp; GCP Tracks</strong>
+            <span>YouTube + Cloud Docs</span>
+          </div>
+        </button>
+        <button type="button" class="cat-chip" data-switch-section="samples" data-filter-cat="MSDN / .NET">
+          <i data-lucide="code-2"></i>
+          <div>
+            <strong>MSDN &amp; .NET Portals</strong>
+            <span>Structured C# Modules</span>
+          </div>
+        </button>
+        <button type="button" class="cat-chip" data-switch-section="samples" data-filter-cat="School Services">
+          <i data-lucide="school"></i>
+          <div>
+            <strong>School Services (Free*)</strong>
+            <span>K-12 Topic Lists</span>
+          </div>
+        </button>
+        <button type="button" class="cat-chip" data-switch-section="pricing">
+          <i data-lucide="presentation"></i>
+          <div>
+            <strong>Speaker-Led Premium</strong>
+            <span>Personalized Modules</span>
+          </div>
+        </button>
+      </div>
+      <div class="showcase-card-footer">
+        <span>Have a wireframe or syllabus idea?</span>
+        <button type="button" class="text-link-btn" data-switch-section="request">Post your need &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Freelancing-Style Workspace: Scrollable Left Menu + Dynamic Middle Section -->
+<section class="workspace-section" id="workspace" data-initial-section="{{ initial_section }}">
+  <div class="container workspace-layout">
+    <!-- Left Scrollable Menu -->
+    <aside class="left-scroll-menu" aria-label="Wixfix Workspace Menu">
+      <div class="menu-header">
+        <span class="menu-eyebrow">Wixfix Workspace</span>
+        <p>Navigate services, live samples &amp; wireframe requests</p>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-group-label">Explore &amp; Discover</div>
+        <button type="button" class="sidebar-link active" data-section="overview">
+          <i data-lucide="home"></i>
+          <span>Home &amp; About Wixfix</span>
+        </button>
+        <button type="button" class="sidebar-link" data-section="samples">
+          <i data-lucide="globe"></i>
+          <span>Sample Websites Created</span>
+          <span class="nav-count" id="sidebar-samples-count">{{ samples|length }}</span>
+        </button>
+        <button type="button" class="sidebar-link highlight-link" data-section="request">
+          <i data-lucide="file-plus-2"></i>
+          <span>Post Need &amp; Wireframe</span>
+          <span class="nav-count" id="sidebar-posts-count">{{ posts|length }}</span>
+        </button>
+
+        <div class="sidebar-group-label">Programs &amp; Tracks</div>
+        <button type="button" class="sidebar-link" data-section="how-it-works">
+          <i data-lucide="layers"></i>
+          <span>How It Works</span>
+        </button>
+        <button type="button" class="sidebar-link" data-section="study-hub">
+          <i data-lucide="cpu"></i>
+          <span>MSDN / AWS / GCP Hub</span>
+        </button>
+        <button type="button" class="sidebar-link" data-section="pricing">
+          <i data-lucide="badge-indian-rupee"></i>
+          <span>Pricing &amp; Free* Tier</span>
+        </button>
+
+        <div class="sidebar-group-label">Agency &amp; Control</div>
+        <button type="button" class="sidebar-link" data-section="about">
+          <i data-lucide="users"></i>
+          <span>Leadership (Priya Gupta)</span>
+        </button>
+        <button type="button" class="sidebar-link" data-section="admin" id="sidebar-admin-btn">
+          <i data-lucide="shield"></i>
+          <span>Admin Panel</span>
+          <span class="admin-dot {% if is_admin %}online{% endif %}" id="sidebar-admin-dot"></span>
+        </button>
+        <a href="{{ url_for('contact_page') }}" class="sidebar-link external-page-link">
+          <i data-lucide="map-pin"></i>
+          <span>Contact &amp; Offices</span>
+          <i data-lucide="arrow-up-right" class="tiny-arrow"></i>
+        </a>
+      </nav>
+
+      <div class="sidebar-promo-box">
+        <span class="promo-tag">Free Service*</span>
+        <h4>Need a custom study portal?</h4>
+        <p>Upload your wireframe and describe your topic needs. We build starter school portals free*.</p>
+        <button type="button" class="btn btn-primary btn-sm btn-block" data-switch-section="request">
+          Submit Wireframe
+        </button>
+      </div>
+    </aside>
+
+    <!-- Dynamic Middle Section -->
+    <div class="middle-workspace">
+      <!-- PANEL 1: OVERVIEW (What we are, what we do, why we are here, how we can help + Live Sample Websites Dashboard) -->
+      <div class="workspace-panel active" id="panel-overview">
+        <div class="panel-card intro-brief-card">
+          <div class="panel-header-row">
+            <div>
+              <span class="eyebrow-badge">Who We Are &amp; How We Help</span>
+              <h2>Why Wixfix Exists &amp; What We Build For You</h2>
+            </div>
+            <span class="free-service-pill">Free Website Creation*</span>
+          </div>
+
+          <div class="four-pillars-grid">
+            <div class="pillar-box">
+              <div class="pillar-icon"><i data-lucide="compass"></i></div>
+              <h3>What We Are</h3>
+              <p>
+                <strong>Wixfix</strong> is a dedicated EdTech and web development agency led by
+                <strong>Priya Gupta</strong>, combining clean academic design with practical engineering.
+              </p>
+            </div>
+            <div class="pillar-box">
+              <div class="pillar-icon teal"><i data-lucide="folder-kanban"></i></div>
+              <h3>What We Do</h3>
+              <p>
+                We turn scattered YouTube tutorial videos into structured, topic-wise learning websites enriched
+                with official study notes from <strong>MSDN, AWS, and GCP</strong>.
+              </p>
+            </div>
+            <div class="pillar-box">
+              <div class="pillar-icon amber"><i data-lucide="lightbulb"></i></div>
+              <h3>Why We Are Here</h3>
+              <p>
+                Students lose momentum jumping across random playlists. We exist to make structured digital
+                learning accessible, distraction-free, and genuinely affordable.
+              </p>
+            </div>
+            <div class="pillar-box">
+              <div class="pillar-icon navy"><i data-lucide="hand-helping"></i></div>
+              <h3>How We Can Help You</h3>
+              <p>
+                We provide <strong>free website creation*</strong> for school &amp; starter portals, plus
+                low-cost speaker-led advanced modules and custom web apps tailored to your wireframe.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Middle Dashboard Showcase: Sample Websites Created by Us -->
+        <div class="panel-card" id="middle-samples-dashboard">
+          <div class="panel-header-row">
+            <div>
+              <span class="eyebrow-badge badge-teal"><span class="pulse-dot"></span> Live Admin-Synced Portfolio</span>
+              <h2>Sample Websites Created by Us</h2>
+              <p class="panel-sub">
+                Prioritized portals published from the Admin Panel. Click any website to launch it in a new tab.
+              </p>
+            </div>
+            <div class="panel-actions-inline">
+              <button type="button" class="btn btn-outline-sm" data-switch-section="samples">View All &amp; Filter</button>
+              <button type="button" class="btn btn-navy-sm" id="quick-admin-open-btn">
+                <i data-lucide="plus"></i> Add via Admin
+              </button>
+            </div>
+          </div>
+
+          <div class="samples-grid" id="overview-samples-grid">
+            {% for sample in samples %}
+              <article class="sample-card priority-border-{{ sample.priority|lower }}">
+                <div class="sample-card-top">
+                  <span class="cat-badge">{{ sample.category }}</span>
+                  <span class="priority-badge priority-{{ sample.priority|lower }}">
+                    <i data-lucide="flag"></i> {{ sample.priority }} Priority
+                  </span>
+                </div>
+                <h3>{{ sample.name }}</h3>
+                <p>{{ sample.description }}</p>
+                <div class="sample-card-foot">
+                  <span class="url-preview">{{ sample.url }}</span>
+                  <a href="{{ sample.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary-sm">
+                    <span>Visit Live Site</span>
+                    <i data-lucide="external-link"></i>
+                  </a>
+                </div>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Quick Callout to Post Need & Wireframe -->
+        <div class="panel-card cta-banner-card">
+          <div>
+            <h3>Have a Portal Idea or Custom Web App Wireframe?</h3>
+            <p>
+              Open the <strong>Post Need &amp; Wireframe</strong> workspace to describe your requirements and upload
+              your wireframe. Once built, our Admin embeds the live running URL right inside your post!
+            </p>
+          </div>
+          <button type="button" class="btn btn-primary" data-switch-section="request">
+            <i data-lucide="upload"></i>
+            <span>Open Need &amp; Wireframe Board</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PANEL 2: FULL SAMPLE WEBSITES DASHBOARD -->
+      <div class="workspace-panel" id="panel-samples">
+        <div class="panel-card">
+          <div class="panel-header-row">
+            <div>
+              <span class="eyebrow-badge badge-teal">Real-Time Portfolio</span>
+              <h2>Sample Websites Created by Us</h2>
+              <p class="panel-sub">
+                Every sample portal below is synced in real time with the Admin Panel and ordered by Priority tag.
+              </p>
+            </div>
+            <button type="button" class="btn btn-navy-sm" data-open-admin="true">
+              <i data-lucide="settings-2"></i> Manage in Admin Panel
+            </button>
+          </div>
+
+          <div class="filter-toolbar">
+            <div class="search-input-wrap">
+              <i data-lucide="search"></i>
+              <input type="text" id="sample-search-input" placeholder="Search sample portals by topic, title, or keyword..." />
+            </div>
+            <select id="sample-priority-filter">
+              <option value="all">All Priorities</option>
+              <option value="Featured">Featured Priority</option>
+              <option value="High">High Priority</option>
+              <option value="Standard">Standard Priority</option>
+            </select>
+          </div>
+
+          <div class="samples-grid" id="full-samples-grid"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 3: REQUEST YOUR WEBSITE (NEED + WIREFRAME UPLOAD + EMBEDDED LIVE URL) -->
+      <div class="workspace-panel" id="panel-request">
+        <div class="panel-card">
+          <div class="panel-header-row">
+            <div>
+              <span class="eyebrow-badge">Client Requirement &amp; Wireframe Workspace</span>
+              <h2>Post Description of Need &amp; Upload Wireframe</h2>
+              <p class="panel-sub">
+                Describe what portal you want Wixfix to build and attach your wireframe. Only the Admin can attach the
+                running web application URL, which displays below an embedded preview ready to open in a new tab.
+              </p>
+            </div>
+          </div>
+
+          <!-- Auth Notice or Post Submission Form -->
+          <div id="post-auth-gate" class="auth-gate-box {% if current_user %}hidden{% endif %}">
+            <i data-lucide="lock"></i>
+            <div>
+              <h4>Sign in to Submit Your Need &amp; Wireframe</h4>
+              <p>
+                Registered users can post project needs and edit/delete their own submissions. New users can register in
+                seconds.
+              </p>
+            </div>
+            <div class="gate-actions">
+              <button type="button" class="btn btn-primary-sm" id="gate-login-btn">Sign In</button>
+              <a href="{{ url_for('register_page') }}" class="btn btn-outline-sm">Register</a>
+            </div>
+          </div>
+
+          <form id="project-post-form" class="need-form {% if not current_user %}hidden{% endif %}" enctype="multipart/form-data">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="post-title">Project / Portal Title</label>
+                <input type="text" id="post-title" name="title" placeholder="e.g., AWS Solutions Architect Study Portal" required />
+              </div>
+              <div class="form-group">
+                <label for="post-category">Topic / Service Tier</label>
+                <select id="post-category" name="category">
+                  <option value="School Services (Free*)">School Services (Free*)</option>
+                  <option value="YouTube + MSDN / AWS / GCP">YouTube + MSDN / AWS / GCP</option>
+                  <option value="Speaker-Led Premium">Speaker-Led Premium</option>
+                  <option value="Custom Web Application">Custom Web Application</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="post-description">Description of Need</label>
+              <textarea
+                id="post-description"
+                name="description"
+                rows="4"
+                placeholder="Describe the topics, YouTube playlists, MSDN/AWS/GCP references, and student features you need..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="post-wireframe">Upload Wireframe (PNG, JPG, SVG, WebP, or PDF)</label>
+                <input type="file" id="post-wireframe" name="wireframe" accept=".png,.jpg,.jpeg,.gif,.webp,.svg,.pdf" />
+              </div>
+              <div class="form-group {% if not is_admin %}hidden{% endif %}" id="post-running-url-field">
+                <label for="post-running-url">Running Web App URL (Admin Only)</label>
+                <input type="url" id="post-running-url" name="running_url" placeholder="https://your-live-app.example.com" />
+              </div>
+            </div>
+
+            <div class="form-feedback" id="post-form-feedback"></div>
+            <div class="form-submit-row">
+              <span class="posting-as">
+                Posting as: <strong id="posting-as-email">{{ current_user.email if current_user else '' }}</strong>
+              </span>
+              <button type="submit" class="btn btn-primary">
+                <i data-lucide="send"></i>
+                <span>Publish Need &amp; Wireframe</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Submitted Project Posts Feed -->
+        <div class="panel-card">
+          <div class="panel-header-row">
+            <div>
+              <h3>Submitted Project Needs &amp; Live Builds</h3>
+              <p class="panel-sub" id="posts-permission-hint">
+                {% if is_admin %}
+                  Admin mode active (anooppriyaranjan@gmail.com / Admin): You can edit, delete, and attach Running App URLs on all posts.
+                {% elif current_user %}
+                  Signed in as {{ current_user.email }}: You can edit or delete your own posts. Only Admin can attach Running Web App URLs.
+                {% else %}
+                  Browse submitted needs and live embedded builds. Sign in to post or manage your submissions.
+                {% endif %}
+              </p>
+            </div>
+          </div>
+
+          <div class="posts-feed" id="project-posts-feed"></div>
+        </div>
+      </div>
+
+      <!-- PANEL 4: HOW IT WORKS -->
+      <div class="workspace-panel" id="panel-how-it-works">
+        <div class="panel-card">
+          <span class="eyebrow-badge">Our 4-Step Process</span>
+          <h2>How Wixfix Turns Chaos Into Structured Learning</h2>
+          <p class="panel-sub">From scattered YouTube search results to an organized, documented academy portal.</p>
+
+          <div class="steps-timeline">
+            <div class="step-card">
+              <span class="step-num">01</span>
+              <h4>Submit Your Topic &amp; Wireframe</h4>
+              <p>Tell us your subject, target learners, or upload a wireframe sketch right inside our workspace.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-num">02</span>
+              <h4>Topic-Wise Video Consolidation</h4>
+              <p>We organize scattered YouTube lessons into clean sequential modules with concise lesson summaries.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-num">03</span>
+              <h4>MSDN / AWS / GCP Study Integration</h4>
+              <p>Every video module is paired with curated official documentation links, cheat sheets, and lab items.</p>
+            </div>
+            <div class="step-card">
+              <span class="step-num">04</span>
+              <h4>Launch &amp; Live URL Delivery</h4>
+              <p>Your portal goes live—free* for school starter portals, or enhanced with speaker-led premium modules.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 5: MSDN / AWS / GCP STUDY HUB -->
+      <div class="workspace-panel" id="panel-study-hub">
+        <div class="panel-card">
+          <span class="eyebrow-badge badge-teal">Structured Documentation + Video Tracks</span>
+          <h2>Curated MSDN, AWS &amp; GCP Study Items</h2>
+          <p class="panel-sub">
+            Sample structure showing how Wixfix maps official cloud &amp; developer documentation alongside video playlists.
+          </p>
+
+          <div class="study-tracks-grid">
+            <div class="track-card">
+              <div class="track-head msdn">MSDN / Microsoft Learn</div>
+              <h4>C#, .NET Core &amp; Azure Fundamentals</h4>
+              <ul>
+                <li>Module 1: C# Types, LINQ &amp; Async/Await Video + MSDN Docs</li>
+                <li>Module 2: ASP.NET Core Web APIs &amp; Entity Framework Labs</li>
+                <li>Module 3: Azure App Service Deployment Checklist</li>
+              </ul>
+              <a href="https://learn.microsoft.com/en-us/docs/" target="_blank" rel="noopener noreferrer" class="track-link">
+                Explore MSDN Reference <i data-lucide="external-link"></i>
+              </a>
+            </div>
+
+            <div class="track-card">
+              <div class="track-head aws">Amazon Web Services (AWS)</div>
+              <h4>Cloud Practitioner &amp; Serverless Path</h4>
+              <ul>
+                <li>Module 1: IAM, VPC &amp; EC2 Architecture Walkthroughs</li>
+                <li>Module 2: S3, DynamoDB &amp; Lambda Hands-On Videos</li>
+                <li>Module 3: AWS Well-Architected Study Cards</li>
+              </ul>
+              <a href="https://docs.aws.amazon.com/" target="_blank" rel="noopener noreferrer" class="track-link">
+                Explore AWS Docs <i data-lucide="external-link"></i>
+              </a>
+            </div>
+
+            <div class="track-card">
+              <div class="track-head gcp">Google Cloud Platform (GCP)</div>
+              <h4>Cloud Run, BigQuery &amp; Kubernetes</h4>
+              <ul>
+                <li>Module 1: GCP Projects, Billing &amp; Cloud IAM Guide</li>
+                <li>Module 2: Cloud Run Containers &amp; Cloud Storage</li>
+                <li>Module 3: BigQuery &amp; Vertex AI Starter Modules</li>
+              </ul>
+              <a href="https://cloud.google.com/docs" target="_blank" rel="noopener noreferrer" class="track-link">
+                Explore GCP Docs <i data-lucide="external-link"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 6: PRICING & OFFERINGS -->
+      <div class="workspace-panel" id="panel-pricing">
+        <div class="panel-card">
+          <span class="eyebrow-badge">Transparent &amp; Student-First</span>
+          <h2>Pricing &amp; Service Offerings</h2>
+          <p class="panel-sub">
+            Empowering schools for free* while keeping personalized speaker-led and custom engineering affordable.
+          </p>
+
+          <div class="pricing-grid">
+            <div class="pricing-card">
+              <span class="tier-badge tier-free">Free* Starter Tier</span>
+              <h3>School Services</h3>
+              <div class="price-display">₹0 <span>/ Free*</span></div>
+              <p class="tier-desc">Ideal for schools, teachers, and student study groups organizing core lessons.</p>
+              <ul class="tier-features">
+                <li><i data-lucide="check"></i> Free* initial school-level website creation</li>
+                <li><i data-lucide="check"></i> Organized YouTube topic-wise playlists</li>
+                <li><i data-lucide="check"></i> Clear lesson descriptions &amp; study lists</li>
+                <li><i data-lucide="check"></i> Curated MSDN / AWS / GCP starter links</li>
+              </ul>
+              <button type="button" class="btn btn-outline-navy btn-block" data-switch-section="request">
+                Request Free* Portal
+              </button>
+            </div>
+
+            <div class="pricing-card featured-tier">
+              <span class="tier-badge tier-pro">Most Popular</span>
+              <h3>Premium / Speaker-Led Learning</h3>
+              <div class="price-display">Affordable <span>/ Small Fee</span></div>
+              <p class="tier-desc">Paid, personalized, or speaker-style advanced learning modules built for outcomes.</p>
+              <ul class="tier-features">
+                <li><i data-lucide="check"></i> Everything in School Services</li>
+                <li><i data-lucide="check"></i> Speaker-led guided module walkthroughs</li>
+                <li><i data-lucide="check"></i> Personalized topic roadmaps &amp; quizzes</li>
+                <li><i data-lucide="check"></i> Priority placement &amp; dedicated support</li>
+              </ul>
+              <a href="{{ url_for('contact_page') }}" class="btn btn-primary btn-block">
+                Get Speaker-Led Quote
+              </a>
+            </div>
+
+            <div class="pricing-card">
+              <span class="tier-badge tier-custom">Custom Engineering*</span>
+              <h3>Complex Custom Applications</h3>
+              <div class="price-display">Custom <span>/ Need-Based*</span></div>
+              <p class="tier-desc">Full-stack portals, custom dashboards, and specialized EdTech integrations.</p>
+              <ul class="tier-features">
+                <li><i data-lucide="check"></i> Custom wireframe-to-production build</li>
+                <li><i data-lucide="check"></i> Role-based portals &amp; interactive tools</li>
+                <li><i data-lucide="check"></i> Cloud deployment (AWS / GCP / Azure)</li>
+                <li><i data-lucide="check"></i> Charged fairly per customer scope*</li>
+              </ul>
+              <button type="button" class="btn btn-navy btn-block" data-switch-section="request">
+                Upload Wireframe
+              </button>
+            </div>
+          </div>
+
+          <p class="inline-asterisk">
+            * Free website creation applies to standard school-level and starter educational portals. Complex custom
+            applications are charged according to customer needs.
+          </p>
+        </div>
+      </div>
+
+      <!-- PANEL 7: ABOUT US & LEADERSHIP -->
+      <div class="workspace-panel" id="panel-about">
+        <div class="panel-card">
+          <span class="eyebrow-badge">About Wixfix</span>
+          <h2>Making Structured Digital Learning Accessible &amp; Affordable</h2>
+          <p class="panel-sub">
+            Founded with a mission to bridge the gap between free online video knowledge and structured academic clarity.
+          </p>
+
+          <div class="leadership-card">
+            <div class="leader-avatar">PG</div>
+            <div class="leader-info">
+              <span class="leader-role">Company Owner &amp; Founder</span>
+              <h3>Priya Gupta</h3>
+              <p>
+                Under the leadership of <strong>Priya Gupta</strong>, Wixfix empowers students, educators, and growing
+                organizations across India—from our offices in <strong>New Delhi</strong> and <strong>Varanasi</strong>—with
+                clean, structured learning portals and dependable custom web development.
+              </p>
+              <div class="leader-meta">
+                <span><i data-lucide="mail"></i> {{ company_email }}</span>
+                <a href="{{ url_for('contact_page') }}" class="text-link-btn">View Delhi &amp; Varanasi Offices &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PANEL 8: ADMIN PANEL (Protected by Encrypted PBKDF2 Verification) -->
+      <div class="workspace-panel" id="panel-admin">
+        <div class="panel-card" id="admin-locked-view" {% if is_admin %}style="display:none"{% endif %}>
+          <div class="admin-lock-box">
+            <i data-lucide="shield-alert"></i>
+            <h3>Admin Portal Locked</h3>
+            <p>
+              Authenticate using the Admin Password or sign in as the Owner account
+              (<code>{{ company_email }}</code>) to manage Sample Websites, Priority tags, and Running App URLs.
+            </p>
+            <button type="button" class="btn btn-navy" id="panel-unlock-admin-btn">
+              <i data-lucide="key-round"></i>
+              <span>Unlock Admin Panel</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="admin-unlocked-view" {% if not is_admin %}style="display:none"{% endif %}>
+          <!-- Add / Edit Sample Website Form -->
+          <div class="panel-card">
+            <div class="panel-header-row">
+              <div>
+                <span class="eyebrow-badge badge-navy">Admin Portal Active</span>
+                <h2 id="admin-sample-form-title">Add New Sample Website</h2>
+                <p class="panel-sub">
+                  Changes here immediately sync with the middle <strong>Sample Websites Created by Us</strong> dashboard
+                  and the global <strong>Footer</strong>.
+                </p>
+              </div>
+              <button type="button" class="btn btn-outline-sm" id="admin-lock-btn">
+                <i data-lucide="log-out"></i> Exit Admin Mode
+              </button>
+            </div>
+
+            <form id="admin-sample-form" class="need-form">
+              <input type="hidden" id="sample-edit-id" value="" />
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="sample-name">Website Name</label>
+                  <input type="text" id="sample-name" placeholder="e.g., Python & ML YouTube Hub" required />
+                </div>
+                <div class="form-group">
+                  <label for="sample-url">Website URL (Link)</label>
+                  <input type="url" id="sample-url" placeholder="https://example.com" required />
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="sample-category">Topic / Category</label>
+                  <input type="text" id="sample-category" placeholder="e.g., AWS & GCP Cloud, MSDN / .NET, School Services" required />
+                </div>
+                <div class="form-group">
+                  <label for="sample-priority">Priority Tag (Controls Dashboard Order)</label>
+                  <select id="sample-priority">
+                    <option value="Featured">Featured (Top Priority)</option>
+                    <option value="High">High Priority</option>
+                    <option value="Standard">Standard Priority</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="sample-description">Short Description</label>
+                <textarea id="sample-description" rows="3" placeholder="Briefly describe what this educational portal organizes..." required></textarea>
+              </div>
+
+              <div class="form-feedback" id="admin-sample-feedback"></div>
+              <div class="form-submit-row">
+                <button type="button" class="btn btn-ghost hidden" id="sample-cancel-edit-btn">Cancel Edit</button>
+                <button type="submit" class="btn btn-primary" id="sample-submit-btn">
+                  <i data-lucide="plus-circle"></i>
+                  <span>Add Sample Website</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Existing Sample Websites Table -->
+          <div class="panel-card">
+            <h3>Manage Existing Sample Websites</h3>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Website Title</th>
+                    <th>Category</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-samples-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Contact Inquiries Received -->
+          <div class="panel-card">
+            <h3>Recent Contact Inquiries</h3>
+            <div id="admin-inquiries-list" class="inquiries-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

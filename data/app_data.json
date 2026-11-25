@@ -1,0 +1,51 @@
+{
+  "samples": [
+    {
+      "id": "smp-cloud-01",
+      "name": "Cloud & DevOps Mastery Hub (AWS + GCP)",
+      "url": "https://aws.amazon.com/training/",
+      "category": "AWS & GCP Cloud",
+      "priority": "Featured",
+      "description": "Turns 90+ scattered YouTube cloud tutorials into a clean module-by-module portal paired with official AWS Well-Architected & GCP documentation study cards.",
+      "created_at": "2026-11-25T16:18:03.115514+00:00",
+      "updated_at": "2026-11-25T16:18:03.115514+00:00"
+    },
+    {
+      "id": "smp-msdn-02",
+      "name": "C# & .NET Full-Stack Structured Portal",
+      "url": "https://learn.microsoft.com/en-us/dotnet/",
+      "category": "MSDN / .NET",
+      "priority": "High",
+      "description": "Topic-wise video curriculum indexing beginner-to-advanced C# lessons alongside curated MSDN reference notes, lab checklists, and interview Q&A.",
+      "created_at": "2026-11-25T16:18:03.115514+00:00",
+      "updated_at": "2026-11-25T16:18:03.115514+00:00"
+    },
+    {
+      "id": "smp-school-03",
+      "name": "K-12 STEM & Python Starter Academy",
+      "url": "https://docs.python.org/3/tutorial/",
+      "category": "School Services (Free)",
+      "priority": "Standard",
+      "description": "Free school-level study portal organizing foundational Python, Algebra, and Web basics from YouTube into distraction-free chapter playlists for students.",
+      "created_at": "2026-11-25T16:18:03.115514+00:00",
+      "updated_at": "2026-11-25T16:18:03.115514+00:00"
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-demo-01",
+      "title": "Class 10 Science & Coding Consolidated Portal",
+      "category": "School Services",
+      "description": "We need a clean chapter-wise portal linking curated Physics & Python YouTube lessons with downloadable revision notes and practice quizzes for 200+ students.",
+      "wireframe_url": "/static/img/sample-wireframe.svg",
+      "wireframe_name": "class10-portal-wireframe.svg",
+      "running_url": "https://learn.microsoft.com/en-us/training/",
+      "author_email": "anooppriyaranjan@gmail.com",
+      "author_name": "Priya Gupta",
+      "created_at": "2026-11-25T16:18:03.115514+00:00",
+      "updated_at": "2026-11-25T16:18:03.115514+00:00"
+    }
+  ],
+  "users": [],
+  "inquiries": []
+}
