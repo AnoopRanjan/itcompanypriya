@@ -1,6 +1,6 @@
 # Wixfix — EdTech & Web Development Agency Website
 
-**Wixfix** is a responsive Python (Flask) web application for an EdTech and Web Development agency led by **Priya Gupta**, designed with a clean white freelancing-marketplace layout and academic navy/teal/amber accents.
+**Wixfix** is a dynamic Python (Flask) web application for an EdTech and Web Development agency led by **Priya Gupta**, designed with a clean white freelancing-marketplace layout and academic navy/teal/amber accents. It runs locally and is ready for **Vercel Python** deployment.
 
 ## Core Purpose & Offerings
 
@@ -22,28 +22,32 @@
   - **Admin-Only Running App URL**: Only administrators can attach the running web application URL to a project post, which displays an embedded live preview alongside an **Open Live Web App in New Tab** button.
 - **User Launch Login Popup & Registration (`/register`)**:
   - Prompts unauthenticated visitors on initial launch with a direct registration link below the password field.
-  - Registration collects First Name, Last Name, Email ID, Mobile Number, Password, and Confirm Password, persisted securely in `data/app_data.json`.
+  - Registration collects First Name, Last Name, Email ID, Mobile Number, Password, and Confirm Password, persisted in JSON storage.
 - **Contact Us & Office Locations (`/contact`)**:
   - Dedicated contact page linked from the header and footer of every page, featuring an inquiry form and official company details (New Delhi & Varanasi offices).
 - **Google-Style Hover Chatbot**:
   - Minimized in the bottom-right corner; expands smoothly on mouse hover or click to answer questions about Wixfix services, pricing\*, MSDN/AWS/GCP study hubs, wireframes, and office locations.
 - **Security**:
-  - User passwords and administrator access are verified server-side using one-way salted `PBKDF2-HMAC-SHA256` cryptographic hashing (`200,000` iterations) with constant-time comparison (`hmac.compare_digest`). No plaintext passwords are stored or disclosed in the codebase or configuration files.
+  - User passwords and administrator access are verified server-side using one-way salted `PBKDF2-HMAC-SHA256` cryptographic hashing (`200,000` iterations) with constant-time comparison (`hmac.compare_digest`). No plaintext passwords are stored or disclosed in the codebase or documentation.
 
 ## Project Structure
 
 ```text
 COMPANY_WEBSITE/
+├── api/
+│   └── index.py            # Vercel Python WSGI entrypoint
 ├── app.py                  # Flask server, API routes, PBKDF2 auth, JSON persistence
-├── requirements.txt        # Python dependencies
+├── vercel.json             # Vercel rewrite routing to Python entrypoint
+├── requirements.txt        # Production Python dependencies (Flask, Werkzeug)
+├── requirements-dev.txt    # Local development & test dependencies (pytest)
 ├── README.md               # Project documentation
 ├── data/
-│   └── app_data.json       # Persistent JSON store (samples, posts, users, inquiries)
+│   └── app_data.json       # Bundled JSON store (samples, posts, users, inquiries)
 ├── static/
 │   ├── css/style.css       # Responsive white marketplace & academic theme
 │   ├── js/app.js           # Dynamic panels, real-time sync, hover chatbot, forms
 │   ├── img/                # Default SVG wireframe asset
-│   └── uploads/wireframes/ # User-uploaded wireframe files
+│   └── uploads/wireframes/ # Local uploaded wireframe files
 ├── templates/
 │   ├── base.html           # Shared header, footer, login/admin modals, chatbot
 │   ├── index.html          # Home page, left scrollable menu, dynamic workspace
@@ -53,14 +57,14 @@ COMPANY_WEBSITE/
     └── test_app.py         # Automated pytest suite
 ```
 
-## Getting Started
+## Run Locally
 
 1. **Install dependencies** (Python 3.10+):
    ```powershell
-   pip install -r requirements.txt
+   pip install -r requirements-dev.txt
    ```
 
-2. **Run the website**:
+2. **Start the website**:
    ```powershell
    python app.py
    ```
@@ -72,3 +76,10 @@ COMPANY_WEBSITE/
    ```powershell
    python -m pytest -v
    ```
+
+## Deploy to Vercel (Python Runtime)
+
+1. Push this folder to GitHub/GitLab/Bitbucket, or deploy with the Vercel CLI (`vercel --prod`).
+2. Vercel automatically detects `vercel.json`, `api/index.py`, and `requirements.txt` and builds the Flask app in the Python runtime.
+3. *(Recommended)* Add a `SECRET_KEY` environment variable in **Vercel Project Settings -> Environment Variables** so user/admin sessions remain valid across serverless cold starts.
+4. **Storage Note on Vercel**: Because Vercel's deployment bundle is read-only, `app.py` automatically seeds `data/app_data.json` into `/tmp/wixfix_runtime/` when running on Vercel. Note that `/tmp` is ephemeral across cold starts; for durable cloud persistence across deployments, connect an external JSON/KV store or database.

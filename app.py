@@ -10,22 +10,34 @@ from functools import wraps
 from pathlib import Path
 from urllib.parse import urlparse
 
+import shutil
 from flask import (
     Flask,
     jsonify,
     redirect,
     render_template,
     request,
+    send_from_directory,
     session,
     url_for,
 )
 from werkzeug.utils import secure_filename
 
 BASE_DIR = Path(__file__).resolve().parent
-DATA_DIR = BASE_DIR / "data"
+BUNDLED_DATA_DIR = BASE_DIR / "data"
+BUNDLED_DATA_FILE = BUNDLED_DATA_DIR / "app_data.json"
+
+IS_VERCEL = bool(os.environ.get("VERCEL") or os.environ.get("VERCEL_ENV"))
+if IS_VERCEL:
+    RUNTIME_DIR = Path("/tmp") / "wixfix_runtime"
+    DATA_DIR = RUNTIME_DIR / "data"
+    UPLOAD_DIR = RUNTIME_DIR / "uploads" / "wireframes"
+else:
+    DATA_DIR = BUNDLED_DATA_DIR
+    UPLOAD_DIR = BASE_DIR / "static" / "uploads" / "wireframes"
+
 DATA_FILE = DATA_DIR / "app_data.json"
 SECRET_KEY_FILE = DATA_DIR / ".secret_key"
-UPLOAD_DIR = BASE_DIR / "static" / "uploads" / "wireframes"
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -43,6 +55,9 @@ _DATA_LOCK = threading.Lock()
 
 
 def _load_or_create_secret_key() -> str:
+    env_key = os.environ.get("SECRET_KEY", "").strip()
+    if env_key:
+        return env_key
     if SECRET_KEY_FILE.exists():
         key = SECRET_KEY_FILE.read_text(encoding="utf-8").strip()
         if key:
@@ -52,7 +67,11 @@ def _load_or_create_secret_key() -> str:
     return key
 
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder=str(BASE_DIR / "static"),
+    template_folder=str(BASE_DIR / "templates"),
+)
 app.config["SECRET_KEY"] = _load_or_create_secret_key()
 app.config["MAX_CONTENT_LENGTH"] = 8 * 1024 * 1024  # 8 MB max wireframe upload
 
@@ -172,9 +191,12 @@ def _default_data() -> dict:
 def _read_data() -> dict:
     with _DATA_LOCK:
         if not DATA_FILE.exists():
-            data = _default_data()
-            DATA_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            return data
+            if BUNDLED_DATA_FILE.exists() and DATA_FILE != BUNDLED_DATA_FILE:
+                shutil.copy2(BUNDLED_DATA_FILE, DATA_FILE)
+            else:
+                data = _default_data()
+                DATA_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
+                return data
         try:
             raw = DATA_FILE.read_text(encoding="utf-8")
             data = json.loads(raw)
@@ -310,6 +332,15 @@ def register_page():
 @app.route("/contact")
 def contact_page():
     return render_template("contact.html")
+
+
+@app.route("/uploads/wireframes/<path:filename>")
+def serve_wireframe(filename: str):
+    target = UPLOAD_DIR / filename
+    if target.exists():
+        return send_from_directory(str(UPLOAD_DIR), filename)
+    fallback_dir = BASE_DIR / "static" / "uploads" / "wireframes"
+    return send_from_directory(str(fallback_dir), filename)
 
 
 @app.route("/api/state")
@@ -560,7 +591,7 @@ def api_create_post():
             ), 400
         saved_name = f"{uuid.uuid4().hex[:10]}_{original}"
         file.save(UPLOAD_DIR / saved_name)
-        wireframe_url = f"/static/uploads/wireframes/{saved_name}"
+        wireframe_url = f"/uploads/wireframes/{saved_name}"
         wireframe_name = original
 
     now = datetime.now(timezone.utc).isoformat()

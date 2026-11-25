@@ -131,6 +131,8 @@ def test_registration_login_and_post_ownership_permissions(client):
     )
     assert post_res.status_code == 201
     rohan_post = next(p for p in post_res.get_json()["posts"] if p["title"] == "Rohan's Python Portal")
+    wf_res = client.get(rohan_post["wireframe_url"])
+    assert wf_res.status_code == 200
 
     # User A cannot attach running_url
     forbidden_url = client.put(
@@ -204,3 +206,13 @@ def test_contact_and_chatbot(client):
     bot_res = client.post("/api/chatbot", json={"query": "Is website creation free?"})
     assert bot_res.status_code == 200
     assert "free" in bot_res.get_json()["answer"].lower()
+
+
+def test_vercel_entrypoint_and_static_assets():
+    from api.index import app as vercel_app
+
+    vercel_app.config["TESTING"] = True
+    with vercel_app.test_client() as vc:
+        for route in ["/", "/register", "/contact", "/api/state", "/static/css/style.css", "/static/js/app.js", "/static/img/sample-wireframe.svg"]:
+            resp = vc.get(route)
+            assert resp.status_code == 200, f"Expected 200 for {route}, got {resp.status_code}"
